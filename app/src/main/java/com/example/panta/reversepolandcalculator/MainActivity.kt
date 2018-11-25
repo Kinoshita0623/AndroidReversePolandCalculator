@@ -43,39 +43,55 @@ class MainActivity : AppCompatActivity() {
             listView.adapter = arrayAdapter
         }
 
-
         var numbers = StringBuilder()
 
         for(n in 0.until(10)){
             val button:Button = numberButtonList[n]
             button.setOnClickListener{
-                //随時更新する
-
-                if(numbers.isBlank()){
-                    numbers.append(n.toString())
-                    numberList.add(numbers.toString())
-                }else{
-                    numbers.append(n.toString())
-                    numberList[numberList.lastIndex] = numbers.toString()
-                }
+                applyNumber(n.toString(), numbers, numberList)
                 displayNumberList()
-
-
             }
+
+        }
+        //小数点
+        val smallNumberPoint:Button = findViewById(R.id.smallNumberPoint)
+        smallNumberPoint.setOnClickListener {
+            applyNumber(".", numbers, numberList)
         }
 
+        //Enter
         val enterButton: Button = findViewById(R.id.enterButton)
         enterButton.setOnClickListener {
             displayNumberList()
             numbers = StringBuilder()   //数値を初期化
         }
 
-        fun popList(op: String){
-            if(numberList.size >= 2){
-                val num1 = numberList[numberList.lastIndex -1]
-                val num2 = numberList[numberList.lastIndex]
-                numberList[numberList.lastIndex - 1] =  calc.calc(num1 = num1, num2 = num2, op = op).toString()
+        //backSpace
+        val backSpaceButton:Button = findViewById(R.id.backSpaceButton)
+        backSpaceButton.setOnClickListener {
+            val data = StringBuilder(numberList.last())
+            if(data.isBlank()){
                 numberList.remove(numberList.last())
+                //numbers = StringBuilder()
+            }else{
+                val tx = data.deleteCharAt(data.length - 1)
+                numberList.remove(numberList.last())
+                if(!tx.isBlank()){
+                    numberList.add(tx.toString())
+                }
+
+                numbers = StringBuilder()
+            }
+            displayNumberList()
+        }
+
+        fun opList(op: String){
+            if(numberList.size >= 2){
+                val num1 = numberList[numberList.lastIndex -1]  //前
+                val num2 = numberList[numberList.lastIndex] //後
+                numberList.remove(numberList.last())
+                numberList[numberList.lastIndex] =  calc.calc(num1 = num1, num2 = num2, op = op).toString()
+
                 displayNumberList()
             }
 
@@ -84,25 +100,38 @@ class MainActivity : AppCompatActivity() {
         //足し算
         val plusButton: Button = findViewById(R.id.plusButton)
         plusButton.setOnClickListener {
-            popList("+")
+            opList("+")
         }
 
         //引き算
         val minusButton: Button = findViewById(R.id.minusButton)
         minusButton.setOnClickListener {
-            popList("-")
+            opList("-")
         }
 
         //掛け算
         val addButton: Button = findViewById(R.id.addButton)
         addButton.setOnClickListener {
-            popList("*")
+            opList("*")
         }
 
+        //割り算
         val divisionButton:Button = findViewById(R.id.divisionButton)
         divisionButton.setOnClickListener{
-            popList("/")
+            opList("/")
         }
 
+
+    }
+
+    private fun applyNumber(s: String, numbers: StringBuilder, numberList: ArrayList<String>){
+        if(numbers.isBlank()){
+            numbers.append(s)
+            numberList.add(numbers.toString())
+        }else{
+            numbers.append(s)
+            numberList[numberList.lastIndex] = numbers.toString()
+        }
+        //displayNumberList()
     }
 }
