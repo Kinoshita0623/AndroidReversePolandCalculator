@@ -69,7 +69,9 @@ class MainActivity : AppCompatActivity() {
         //backSpace
         val backSpaceButton:Button = findViewById(R.id.backSpaceButton)
         backSpaceButton.setOnClickListener {
-            val data = StringBuilder(numberList.last())
+
+            //val data = StringBuilder(numberList.last())
+            val data = if(numberList.isNotEmpty()) StringBuilder(numberList.last()) else return@setOnClickListener
             if(data.isBlank()){
                 numberList.remove(numberList.last())
                 //numbers = StringBuilder()
