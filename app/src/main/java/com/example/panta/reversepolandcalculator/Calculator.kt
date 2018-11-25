@@ -9,27 +9,33 @@ class Calculator{
         //val n2 = Integer.parseInt(num2)
         val n1 = BigDecimal(num1)
         val n2 = BigDecimal(num2)
-        return when(op){
-            "+" ->{
-                //n1 + n2
-                n1.add(n2)
-            }
-            "-" ->{
-                //n1 - n2
-                n1.subtract(n2)
-            }
-            "*" ->{
-                //n1 * n2
-                n1.multiply(n2)
+        try{
+            return when(op){
+                "+" ->{
+                    //n1 + n2
+                    n1.add(n2)
+                }
+                "-" ->{
+                    //n1 - n2
+                    n1.subtract(n2)
+                }
+                "*" ->{
+                    //n1 * n2
+                    n1.multiply(n2)
 
-            }
-            "/" ->{
-                n1.divide(n2)
-            }
-            else ->{
-                throw ArithmeticException("演算子異常")
-            }
+                }
+                "/" ->{
+                    n1.divide(n2)
+                }
+                else ->{
+                    throw ArithmeticException("演算子異常")
+                }
         }
+
+        }catch(e: ArithmeticException){
+            e.printStackTrace()
+        }
+        return BigDecimal(-1145141919810)
     }
 
     fun calcModule(op: String){

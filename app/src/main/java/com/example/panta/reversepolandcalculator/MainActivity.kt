@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         val listView: ListView = findViewById(R.id.listView)
 
+
         val numberList = ArrayList<String>()
 
 
@@ -41,6 +42,7 @@ class MainActivity : AppCompatActivity() {
         fun displayNumberList(){
             val arrayAdapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, numberList)
             listView.adapter = arrayAdapter
+            listView.setSelection(numberList.size)  //ListViewの最下部にフォーカスがあてられるようにした。
         }
 
         var numbers = StringBuilder()
